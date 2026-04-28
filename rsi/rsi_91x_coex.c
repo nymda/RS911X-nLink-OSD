@@ -3,6 +3,10 @@
  * Copyright 2020-2023 Silicon Labs, Inc.
  */
 
+#include <linux/completion.h>
+#include <linux/kthread.h>
+#include <linux/sched.h>
+
 #include "rsi_main.h"
 #include "rsi_coex.h"
 #include "rsi_hal.h"
@@ -84,7 +88,8 @@ static void rsi_coex_scheduler_thread(struct rsi_common *common)
       rsi_dbg(ERR_ZONE, "%s,%d:  Failed to get tx_access\n", __func__, __LINE__);
     set_clr_tx_intention(common, BT_ZB_ID, 0);
   } while (atomic_read(&coex_cb->coex_tx_thread.thread_done) == 0);
-  complete_and_exit(&coex_cb->coex_tx_thread.completion, 0);
+  complete(&coex_cb->coex_tx_thread.completion);
+  exit(0);
 }
 
 int rsi_coex_recv_pkt(struct rsi_common *common, u8 *msg)

@@ -6,6 +6,10 @@
 #ifndef __RSI_USB_INTF__
 #define __RSI_USB_INTF__
 
+#include <linux/completion.h>
+#include <linux/kthread.h>
+#include <linux/sched.h>
+
 #include <linux/usb.h>
 #include "rsi_main.h"
 #include "rsi_common.h"

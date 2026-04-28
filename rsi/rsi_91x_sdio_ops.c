@@ -3,6 +3,10 @@
  * Copyright 2020-2023 Silicon Labs, Inc.
  */
 
+#include <linux/completion.h>
+#include <linux/kthread.h>
+#include <linux/sched.h>
+
 #include <linux/firmware.h>
 #include "rsi_sdio.h"
 #include "rsi_common.h"
@@ -82,7 +86,9 @@ void rsi_sdio_rx_thread(struct rsi_common *common)
   rsi_dbg(INFO_ZONE, "%s: Terminated SDIO RX thread\n", __func__);
   skb_queue_purge(&sdev->rx_q.head);
   atomic_inc(&sdev->rx_thread.thread_done);
-  complete_and_exit(&sdev->rx_thread.completion, 0);
+  complete(&sdev->rx_thread.completion);
+  exit(0);
+
 }
 
 /**

@@ -5,6 +5,10 @@
 
 #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 
+#include <linux/completion.h>
+#include <linux/kthread.h>
+#include <linux/sched.h>
+
 #include <linux/module.h>
 #include <linux/firmware.h>
 #include "rsi_mgmt.h"
@@ -626,7 +630,8 @@ static void rsi_tx_scheduler_thread(struct rsi_common *common)
       set_clr_tx_intention(common, WLAN_ID, 0);
     }
   } while (atomic_read(&common->tx_thread.thread_done) == 0);
-  complete_and_exit(&common->tx_thread.completion, 0);
+  complete(&common->tx_thread.completion);
+  exit(0);
 }
 
 #ifdef CONFIG_SDIO_INTR_POLL
@@ -642,7 +647,8 @@ void rsi_sdio_intr_poll_scheduler_thread(struct rsi_common *common)
     msleep(20);
 
   } while (atomic_read(&common->sdio_intr_poll_thread.thread_done) == 0);
-  complete_and_exit(&common->sdio_intr_poll_thread.completion, 0);
+  complete(&common->sdio_intr_poll_thread.completion);
+  exit(0);
 }
 
 void init_sdio_intr_status_poll_thread(struct rsi_common *common)
