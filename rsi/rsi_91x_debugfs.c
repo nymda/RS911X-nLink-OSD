@@ -540,7 +540,7 @@ static ssize_t rsi_write_chload_meas_req(struct file *file, const char __user *u
   bss                            = &vif->bss_conf;
 #endif
 
-  if (!bss->assoc) {
+  if (!vif->cfg.assoc) {
     rsi_dbg(ERR_ZONE, "unable to send channelload in non connected state\n");
     return -EINVAL;
   }
@@ -631,7 +631,7 @@ static ssize_t rsi_write_frame_meas_req(struct file *file, const char __user *us
   bss                            = &vif->bss_conf;
 #endif
 
-  if (!bss->assoc) {
+  if (!vif->cfg.assoc) {
     rsi_dbg(ERR_ZONE, "unable to send frame req in non connected state\n");
     return -EINVAL;
   }

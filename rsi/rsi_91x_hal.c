@@ -506,7 +506,7 @@ int rsi_send_data_pkt(struct rsi_common *common, struct sk_buff *skb)
     goto err;
   }
   if (vif->type == NL80211_IFTYPE_STATION) {
-    if (!bss->assoc)
+    if (!vif->cfg.assoc)
       goto err;
     if (!(tx_params->flags & ENCAP_OFFLOAD_EN) && !ether_addr_equal(wh->addr1, bss->bssid))
       goto err;
@@ -620,7 +620,7 @@ int rsi_send_mgmt_pkt(struct rsi_common *common, struct sk_buff *skb)
   }
   /* Indicate to firmware to give cfm */
   if (ieee80211_is_probe_req(wh->frame_control)) {
-    if (!bss->assoc) {
+    if (!vif->cfg.assoc) {
       rsi_dbg(INFO_ZONE, "%s: blocking mgmt queue\n", __func__);
       desc[1] |= cpu_to_le16(RSI_DESC_REQUIRE_CFM_TO_HOST);
       xtend_desc->confirm_frame_type = PROBEREQ_CONFIRM;
@@ -743,9 +743,11 @@ int rsi_prepare_beacon(struct rsi_common *common, struct sk_buff *skb, struct ie
   u16 tim_offset                = 0;
 
 #ifndef CONFIG_STA_PLUS_AP
-  mac_bcn = ieee80211_beacon_get_tim(adapter->hw, adapter->vifs[adapter->sc_nvifs - 1], &tim_offset, NULL);
+  //mac_bcn = ieee80211_beacon_get_tim(adapter->hw, adapter->vifs[adapter->sc_nvifs - 1], &tim_offset, NULL);
+  mac_bcn = ieee80211_beacon_get_tim(adapter->hw, adapter->vifs[adapter->sc_nvifs - 1], &tim_offset, &tim_length, 0);
 #else
-  mac_bcn = ieee80211_beacon_get_tim(adapter->hw, vif, &tim_offset, NULL);
+  //mac_bcn = ieee80211_beacon_get_tim(adapter->hw, vif, &tim_offset, NULL);
+  mac_bcn = ieee80211_beacon_get_tim(adapter->hw, vif, &tim_offset, &tim_length, 0);
 #endif
   if (!mac_bcn) {
     rsi_dbg(ERR_ZONE, "Failed to get beacon from mac80211\n");

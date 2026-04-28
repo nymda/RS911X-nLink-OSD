@@ -541,7 +541,7 @@ static int rsi_mac80211_hw_scan_start(struct ieee80211_hw *hw,
     return -ENETDOWN;
 #endif
 #ifndef CONFIG_STA_PLUS_AP
-  if (!bss->assoc) {
+  if (!vif->cfg.assoc) {
 #else
   if (!bss->assoc && (common->vap_mode != CONCURRENT)) {
 #endif
@@ -2201,7 +2201,7 @@ static int rsi_mac80211_set_rate_mask(struct ieee80211_hw *hw,
 #endif
   struct ieee80211_bss_conf *bss = &vif->bss_conf;
 
-  if (!bss->assoc) {
+  if (!vif->cfg.assoc) {
     rsi_dbg(ERR_ZONE, "Can't set any rate before connection\n");
     return -EINVAL;
   }
@@ -2366,7 +2366,7 @@ int rsi_validate_pn(struct rsi_hw *adapter, struct ieee80211_hdr *hdr)
     if ((vif->type != NL80211_IFTYPE_STATION) && (vif->type != NL80211_IFTYPE_P2P_CLIENT))
       continue;
     bss = &vif->bss_conf;
-    if (!bss->assoc)
+    if (!vif->cfg.assoc)
       continue;
     if (!ether_addr_equal(bss->bssid, hdr->addr2))
       continue;
@@ -3085,7 +3085,7 @@ int rsi_config_wowlan(struct rsi_hw *adapter, struct cfg80211_wowlan *wowlan)
 #ifdef CONFIG_STA_PLUS_AP
   if (!sta_bss->assoc) {
 #else
-  if (!bss->assoc) {
+  if (!vif->cfg.assoc) {
 #endif
     rsi_dbg(ERR_ZONE, "Cannot configure WoWLAN (Station not connected)\n");
     common->wow_flags |= RSI_WOW_NO_CONNECTION;
