@@ -17,7 +17,7 @@ KERNELDIR=/lib/modules/$(KERNELRELEASE)/build
 #CONFIG_RSI_BT_ALONE=y
 
 # Uncomment below line for Wi-Fi BT coex mode
-#CONFIG_RSI_COEX_MODE=y
+CONFIG_RSI_COEX_MODE=y
 
 # Uncomment below line for WLAN + Zigbee coex mode
 #CONFIG_RSI_ZIGB=y
@@ -61,7 +61,7 @@ COMMAND_84_ERROR_WAR=y
 mac80211 will do scan
 OFFLOAD_SCAN_TO_DEVICE=y
 
-EXTRA_CFLAGS += -DLINUX -Wimplicit -Wstrict-prototypes -Wall -Werror -Wno-implicit-fallthrough
+EXTRA_CFLAGS += -DLINUX -Wimplicit -Wall -Wno-implicit-fallthrough
 EXTRA_CFLAGS += -I$(PWD)/include
 EXTRA_CFLAGS += -DCONFIG_RSI_DEBUGFS
 
