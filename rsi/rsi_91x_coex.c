@@ -6,7 +6,6 @@
 #include <linux/completion.h>
 #include <linux/kthread.h>
 #include <linux/sched.h>
-#include <stdlib.h>
 
 #include "rsi_main.h"
 #include "rsi_coex.h"
@@ -90,7 +89,7 @@ static void rsi_coex_scheduler_thread(struct rsi_common *common)
     set_clr_tx_intention(common, BT_ZB_ID, 0);
   } while (atomic_read(&coex_cb->coex_tx_thread.thread_done) == 0);
   complete(&coex_cb->coex_tx_thread.completion);
-  exit(0);
+  do_exit(0);
 }
 
 int rsi_coex_recv_pkt(struct rsi_common *common, u8 *msg)

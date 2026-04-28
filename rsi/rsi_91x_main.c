@@ -631,7 +631,7 @@ static void rsi_tx_scheduler_thread(struct rsi_common *common)
     }
   } while (atomic_read(&common->tx_thread.thread_done) == 0);
   complete(&common->tx_thread.completion);
-  exit(0);
+  do_exit(0);
 }
 
 #ifdef CONFIG_SDIO_INTR_POLL
@@ -648,7 +648,7 @@ void rsi_sdio_intr_poll_scheduler_thread(struct rsi_common *common)
 
   } while (atomic_read(&common->sdio_intr_poll_thread.thread_done) == 0);
   complete(&common->sdio_intr_poll_thread.completion);
-  exit(0);
+  do_exit(0);
 }
 
 void init_sdio_intr_status_poll_thread(struct rsi_common *common)

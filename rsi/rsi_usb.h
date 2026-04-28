@@ -9,7 +9,6 @@
 #include <linux/completion.h>
 #include <linux/kthread.h>
 #include <linux/sched.h>
-#include <stdlib.h>
 
 #include <linux/usb.h>
 #include "rsi_main.h"

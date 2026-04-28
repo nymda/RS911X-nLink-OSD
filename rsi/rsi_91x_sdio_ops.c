@@ -6,7 +6,6 @@
 #include <linux/completion.h>
 #include <linux/kthread.h>
 #include <linux/sched.h>
-#include <stdlib.h>
 
 #include <linux/firmware.h>
 #include "rsi_sdio.h"
@@ -88,7 +87,7 @@ void rsi_sdio_rx_thread(struct rsi_common *common)
   skb_queue_purge(&sdev->rx_q.head);
   atomic_inc(&sdev->rx_thread.thread_done);
   complete(&sdev->rx_thread.completion);
-  exit(0);
+  do_exit(0);
 
 }
 
