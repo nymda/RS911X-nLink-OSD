@@ -50,7 +50,7 @@ void rsi_usb_rx_thread(struct rsi_common *common)
 
   rsi_dbg(INFO_ZONE, "%s: Terminated USB RX thread\n", __func__);
   atomic_inc(&dev->rx_thread.thread_done);
-  complete(&dev->rx_thread.completion, 0);
+  complete(&dev->rx_thread.completion);
   do_exit(0);
 
 }
