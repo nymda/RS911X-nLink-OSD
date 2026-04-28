@@ -741,6 +741,7 @@ int rsi_prepare_beacon(struct rsi_common *common, struct sk_buff *skb, struct ie
   u8 vap_id                     = 0;
   int status                    = 0;
   u16 tim_offset                = 0;
+  u16 tim_length                = 0;
 
 #ifndef CONFIG_STA_PLUS_AP
   //mac_bcn = ieee80211_beacon_get_tim(adapter->hw, adapter->vifs[adapter->sc_nvifs - 1], &tim_offset, NULL);
